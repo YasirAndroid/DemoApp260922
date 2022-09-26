@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".RegisterActivity"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
+                android:text="SignUp"
+                android:textColor="@color/black"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/et_firstname"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/et_theme1"
+                android:gravity="center"
+                android:hint="First Name" />
+
+            <EditText
+                android:id="@+id/et_lastname"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/et_theme1"
+                android:gravity="center"
+                android:hint="Last Name" />
+
+            <EditText
+                android:id="@+id/et_email_signup"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/et_theme1"
+                android:gravity="center"
+                android:hint="Email"/>
+
+            <EditText
+                android:id="@+id/et_pass_signup"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/et_theme1"
+                android:gravity="center"
+                android:hint="Password" />
+
+            <EditText
+                android:id="@+id/et_conpass_signup"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/et_theme1"
+                android:gravity="center"
+                android:hint="Password Confirm" />
+
+            <EditText
+                android:id="@+id/et_phone"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/et_theme1"
+                android:gravity="center"
+                android:hint="Phone" />
+
+            <EditText
+                android:id="@+id/et_address"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/et_theme1"
+                android:gravity="center"
+                android:hint="Address" />
+
+            <EditText
+                android:id="@+id/et_city"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/et_theme1"
+                android:gravity="center"
+                android:hint="City" />
+
+            <EditText
+                android:id="@+id/et_state"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/et_theme1"
+                android:gravity="center"
+                android:hint="State" />
+
+            <EditText
+                android:id="@+id/et_postalcode"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/et_theme1"
+                android:gravity="center"
+                android:hint="Postal Code" />
+
+
+            <Button
+                android:id="@+id/btn_picklogo"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="44dp"
+                android:text="Pick Logo Image"
+                android:layout_margin="10dp"/>
+
+            <Button
+                android:id="@+id/btn_signup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="Signup" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

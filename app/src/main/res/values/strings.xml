@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">DemoApp</string>
+    <string name="login">Login</string>
+    <string name="already_have_an_account_signup"><u>Already have an account?SignUp</u></string>
+</resources>
