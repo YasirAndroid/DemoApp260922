@@ -1,5 +1,6 @@
 package com.demo.demoapp
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Binder
@@ -22,25 +23,42 @@ class LoginActivity : AppCompatActivity() {
     private var isReadPermissionGranted = false
     private var isWritePermissionGranted = false
     private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
+    lateinit var progress: ProgressDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        progress = ProgressDialog(this)
+        progress.setTitle("Logging in..")
+
         permissionLauncher = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()){ permissions ->
             isReadPermissionGranted = permissions[android.Manifest.permission.READ_EXTERNAL_STORAGE] ?: isReadPermissionGranted
             isWritePermissionGranted = permissions[android.Manifest.permission.WRITE_EXTERNAL_STORAGE] ?: isWritePermissionGranted
         }
         requestPermission()
-
         val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.result.observe(this) {
+        viewModel.resultLogin.observe(this) {
             when(it.status) {
-                Status.SUCCESS -> startActivity(Intent(this, MainActivity::class.java))
-                Status.ERROR -> Toast.makeText(this, "Error with server", Toast.LENGTH_LONG).show()
-                Status.LOADING -> Toast.makeText(this, "Error with server", Toast.LENGTH_LONG).show()
-                Status.FAILED -> startActivity(Intent(this, RegisterActivity::class.java))
+                Status.SUCCESS -> {
+                    progress.dismiss()
+                    Intent(this, MainActivity::class.java).also { intent ->
+                        startActivity(intent)
+                    }
+                }
+                Status.ERROR -> {
+                    progress.dismiss()
+                    Toast.makeText(this, "Error with server", Toast.LENGTH_LONG).show()
+                }
+                Status.FAILED ->  {
+                    progress.dismiss()
+                    Intent(this, RegisterActivity::class.java).also { intent ->
+                        startActivity(intent)
+                    }
+                }
+                Status.LOADING -> {
+                }
             }
         }
 
@@ -48,7 +66,11 @@ class LoginActivity : AppCompatActivity() {
             val email = binding.etEmailLogin.text
             val pass = binding.etPassLogin.text
             if (email.isNotEmpty() && pass.isNotEmpty()){
+                progress.show()
                 viewModel.Login(email.toString(), pass.toString())
+            }
+            else {
+                Toast.makeText(this, "Please Check Your Details", Toast.LENGTH_LONG).show()
             }
         }
         binding.tvGotoSignup.setOnClickListener {

@@ -1,5 +1,6 @@
 package com.demo.demoapp
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -22,8 +23,9 @@ import java.io.FileOutputStream
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    lateinit var filePath: String
-    lateinit var fileUri: Uri
+    private var filePath: String? = null
+    private lateinit var fileUri: Uri
+    private lateinit var progress: ProgressDialog
 
     var pickPhoto = registerForActivityResult(
     ActivityResultContracts.GetContent(),
@@ -33,19 +35,34 @@ class RegisterActivity : AppCompatActivity() {
         }
     )
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        progress = ProgressDialog(this)
+        progress.setTitle("Registering..")
+
         val viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
-        viewModel.result.observe(this) {
+        viewModel.resultSignup.observe(this) {
             when(it.status) {
-                Status.SUCCESS -> startActivity(Intent(this, MainActivity::class.java))
-                Status.ERROR -> Toast.makeText(this, "Error with server", Toast.LENGTH_LONG).show()
-                Status.LOADING -> Toast.makeText(this, "Error with server", Toast.LENGTH_LONG).show()
-                Status.FAILED -> startActivity(Intent(this, RegisterActivity::class.java))
+                Status.SUCCESS -> {
+                    progress.dismiss()
+                    Intent(this, MainActivity::class.java).also { intent ->
+                        startActivity(intent)
+                    }
+                }
+                Status.ERROR -> {
+                    progress.dismiss()
+                    Toast.makeText(this, "Error with server", Toast.LENGTH_LONG).show()
+                }
+                Status.FAILED ->  {
+                    progress.dismiss()
+                    Toast.makeText(this, "${it.message}", Toast.LENGTH_LONG).show()
+                }
+                Status.LOADING -> {
+
+                }
             }
         }
         binding.btnPicklogo.setOnClickListener {
@@ -53,18 +70,40 @@ class RegisterActivity : AppCompatActivity() {
         }
 
         binding.btnSignup.setOnClickListener {
-            val firstname = binding.etPassSignup.text
-            val lastname = binding.etPassSignup.text
+            val firstname = binding.etFirstname.text
+            val lastname = binding.etLastname.text
             val email = binding.etEmailSignup.text
             val pass = binding.etPassSignup.text
-            val conpass = binding.etPassSignup.text
-            val phone = binding.etPassSignup.text
-            val address = binding.etPassSignup.text
-            val city = binding.etPassSignup.text
-            val state = binding.etPassSignup.text
-            val postal = binding.etPassSignup.text
-            if (email.isNotEmpty() && pass.isNotEmpty() && firstname.isNotEmpty() && lastname.isNotEmpty() && conpass.isNotEmpty() && phone.isNotEmpty() && address.isNotEmpty() && city.isNotEmpty() && state.isNotEmpty() && postal.isNotEmpty()){
-                viewModel.Signup(firstname.toString(), lastname.toString(), email.toString(), pass.toString(), conpass.toString(), phone.toString(), address.toString(), city.toString(), state.toString(), postal.toString(), filePath)
+            val conpass = binding.etConpassSignup.text
+            val phone = binding.etPhone.text
+            val address = binding.etAddress.text
+            val city = binding.etCity.text
+            val state = binding.etState.text
+            val postal = binding.etPostalcode.text
+            if (email.isNotEmpty() && pass.isNotEmpty() && firstname.isNotEmpty() && lastname.isNotEmpty() && conpass.isNotEmpty() && phone.isNotEmpty() && address.isNotEmpty() && city.isNotEmpty() && state.isNotEmpty() && postal.isNotEmpty() && filePath!=null){
+                progress.show()
+                if (pass.toString()==conpass.toString()) {
+                    viewModel.Signup(
+                        firstname.toString(),
+                        lastname.toString(),
+                        email.toString(),
+                        pass.toString(),
+                        conpass.toString(),
+                        phone.toString(),
+                        address.toString(),
+                        city.toString(),
+                        state.toString(),
+                        postal.toString(),
+                        filePath!!
+                    )
+                }
+                else {
+                    progress.dismiss()
+                    Toast.makeText(this, "Please Check Your Password", Toast.LENGTH_LONG).show()
+                }
+            }
+            else {
+                Toast.makeText(this, "Please Check Your Details", Toast.LENGTH_LONG).show()
             }
         }
     }

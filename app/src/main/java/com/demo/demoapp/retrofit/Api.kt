@@ -1,6 +1,7 @@
 package com.demo.demoapp.retrofit
 
 import com.demo.demoapp.model.ResponseModel
+import com.demo.demoapp.model.SignupResponse
 import com.octel.crysta.utils.BaseResponse
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -14,6 +15,6 @@ interface Api {
     fun login(@Body body: RequestBody) : Call<ResponseModel>
 
     @POST("quote-register")
-    fun register(@Body body: RequestBody) : Call<ResponseModel>
+    fun register(@Body body: RequestBody) : Call<SignupResponse>
 
 }
